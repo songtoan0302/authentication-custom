@@ -1,5 +1,6 @@
 package org.aibles.authentication.configuration;
 
+import org.aibles.authentication.filter.UserInterceptor;
 import org.aibles.authentication.repository.UserRepository;
 import org.aibles.authentication.service.UserService;
 import org.aibles.authentication.service.impl.UserServiceImpl;
@@ -24,4 +25,13 @@ public class AuthenticationConfiguration {
     return new ModelMapper();
   }
 
+  @Bean
+  public InterceptorRegistryConfiguration interceptorRegistry(UserInterceptor userInterceptor) {
+    return new InterceptorRegistryConfiguration(userInterceptor);
+  }
+
+  @Bean
+  public UserInterceptor userInterceptor(UserService service) {
+    return new UserInterceptor(service);
+  }
 }

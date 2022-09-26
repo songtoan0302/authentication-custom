@@ -62,4 +62,6 @@ public interface UserService {
    * @param jwt
    */
   void logout(String jwt);
+
+  boolean existsByJwt(String jwt);
 }

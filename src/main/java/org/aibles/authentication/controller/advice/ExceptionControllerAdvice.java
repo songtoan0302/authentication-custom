@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import org.aibles.authentication.exception.BaseException;
-import org.aibles.authentication.exception.UnauthorizedException;
 import org.aibles.authentication.exception.response.ExceptionResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;

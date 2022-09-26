@@ -1,17 +1,14 @@
-package org.aibles.authentication.component;
+package org.aibles.authentication.filter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.authentication.exception.UnauthorizedException;
-import org.aibles.authentication.repository.UserRepository;
 import org.aibles.authentication.service.UserService;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-@Component
 @Slf4j
 @RequiredArgsConstructor
 public class UserInterceptor implements HandlerInterceptor {
@@ -67,7 +64,7 @@ public class UserInterceptor implements HandlerInterceptor {
   private boolean authenticationAnyRequest(HttpServletRequest request) {
     var jwt = request.getHeader(KEY_REQUEST_JWT_FROM_HEADER);
     if (!service.existsByJwt(jwt)) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException("JWT","JWT invalid");
     }
     return true;
   }

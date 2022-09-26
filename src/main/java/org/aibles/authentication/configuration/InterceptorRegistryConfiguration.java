@@ -1,14 +1,13 @@
 package org.aibles.authentication.configuration;
 
+import lombok.RequiredArgsConstructor;
 import org.aibles.authentication.filter.UserInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Component
-public class InterceptorConfiguration extends WebMvcConfigurerAdapter {
-  UserInterceptor userInterceptor;
+@RequiredArgsConstructor
+public class InterceptorRegistryConfiguration extends WebMvcConfigurerAdapter {
+  private final UserInterceptor userInterceptor;
 
   /**
    * đăng kí interceptor với InterceptorRegistry
