@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aibles.authentication.exception.UnauthorizedException;
 import org.aibles.authentication.repository.UserRepository;
-import org.aibles.authentication.utils.Base64Encoding;
+import org.aibles.authentication.service.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,10 +19,8 @@ public class UserInterceptor implements HandlerInterceptor {
   private static final String URI_API_LOGIN = "/api/v1/users/login";
   private static final String URI_API_REGISTRY = "/api/v1/users";
   private static final String HTTP_METHOD_POST = "POST";
-  private static final String STRING_SEPARATOR = " ";
   private static final String KEY_REQUEST_JWT_FROM_HEADER = "Bearer";
-  private static final int EMAIL_INDEX = 0;
-  private final UserRepository repository;
+  private final UserService service;
 
   /**
    * preHandle sẽ thực hiện việc kiểm tra mã thông báo đầu vào bằng cách giải mã jwt sau đó lấy
@@ -41,6 +39,7 @@ public class UserInterceptor implements HandlerInterceptor {
   @Override
   public boolean preHandle(
       HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
     if (HTTP_METHOD_POST.equalsIgnoreCase(request.getMethod()) && request.getRequestURI()
         .equals(URI_API_LOGIN)) {
       return true;
@@ -51,16 +50,7 @@ public class UserInterceptor implements HandlerInterceptor {
       return true;
     }
 
-    var jwt = request.getHeader(KEY_REQUEST_JWT_FROM_HEADER);
-    var email = Base64Encoding.decrypt(jwt).split(STRING_SEPARATOR)[EMAIL_INDEX];
-    var user = repository.findByEmail(email)
-        .orElseThrow(() -> {
-          throw new UnauthorizedException();
-        });
-    if (!user.getJwt().equals(jwt)) {
-      throw new UnauthorizedException();
-    }
-    return true;
+    return authenticationAnyRequest(request);
   }
 
   @Override
@@ -74,4 +64,11 @@ public class UserInterceptor implements HandlerInterceptor {
       Object handler, Exception exception) throws Exception {
   }
 
+  private boolean authenticationAnyRequest(HttpServletRequest request) {
+    var jwt = request.getHeader(KEY_REQUEST_JWT_FROM_HEADER);
+    if (!service.existsByJwt(jwt)) {
+      throw new UnauthorizedException();
+    }
+    return true;
+  }
 }
