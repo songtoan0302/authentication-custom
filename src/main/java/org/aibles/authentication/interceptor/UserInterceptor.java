@@ -1,4 +1,4 @@
-package org.aibles.authentication.filter;
+package org.aibles.authentication.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

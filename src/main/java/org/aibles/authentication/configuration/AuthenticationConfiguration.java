@@ -1,6 +1,6 @@
 package org.aibles.authentication.configuration;
 
-import org.aibles.authentication.filter.UserInterceptor;
+import org.aibles.authentication.interceptor.UserInterceptor;
 import org.aibles.authentication.repository.UserRepository;
 import org.aibles.authentication.service.UserService;
 import org.aibles.authentication.service.impl.UserServiceImpl;

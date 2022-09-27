@@ -1,7 +1,7 @@
 package org.aibles.authentication.configuration;
 
 import lombok.RequiredArgsConstructor;
-import org.aibles.authentication.filter.UserInterceptor;
+import org.aibles.authentication.interceptor.UserInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
